@@ -1,0 +1,22 @@
+
+{
+    "pluckindex":[{"type":"PluckType.Black"},
+    {"type":"PluckType.White"},
+    {"type":"PluckType.Black"},
+    {"type":"PluckType.White"},
+    {"type":"PluckType.Black"},
+    {"type":"PluckType.White"},
+    {"type":"PluckType.White"},
+    {"type":"PluckType.Black"},
+    {"type":"PluckType.White"},
+    {"type":"PluckType.Red"},
+    {"type":"PluckType.Black"},
+    {"type":"PluckType.Black"},
+    {"type":"PluckType.White"},
+    {"type":"PluckType.Black"},
+    {"type":"PluckType.White"},
+    {"type":"PluckType.White"},
+    {"type":"PluckType.Black"},
+    {"type":"PluckType.White"},
+    {"type":"PluckType.Black"}]
+}
