@@ -13,56 +13,62 @@ const { ccclass, property } = _decorator;
 @ccclass("SliderManager")
 export class SliderManager extends Component {
   @property(Node)
-  striker = null;
+  striker: Node = null;
+  @property(Node)
+  hover_green: Node = null;
+
+  twidth = 150;
+  width = -70;
 
   CurrentProgress: number;
   move() {
-    console.log("moved");
-    let twidth = 150;
-    let width = -75;
+    console.log("moved", this.node.getParent().getComponent(Slider).progress);
 
     this.striker.setPosition(
-      width + twidth * this.node.getParent().getComponent(Slider).progress,
-      this.striker.getPosition().y
+      this.width +
+        this.twidth * this.node.getParent().getComponent(Slider).progress,
+      this.striker.getPosition().y,
+      0
     );
   }
   onLoad() {
-    this.striker.getChildByName("Arrow").active = false;
-    let Rotation = this.striker.getChildByName("Rotate_Hover");
-    tween(Rotation).by(1, { angle: -360 }).repeatForever().start();
+    // touch start
     this.node.on(
       Input.EventType.TOUCH_START,
       () => {
         console.log("start");
-        this.striker
-          .getChildByName("Hover")
+        this.hover_green
           .getComponent(UITransform)
           .setContentSize(new Size(40, 40));
       },
       this
     );
+
+    // touch end
     this.node.on(
       Input.EventType.TOUCH_END,
       () => {
         console.log("end");
-        this.striker
-          .getChildByName("Hover")
+        this.hover_green
           .getComponent(UITransform)
           .setContentSize(new Size(60, 60));
       },
       this
     );
+
+    // touch cancel
     this.node.on(
       Input.EventType.TOUCH_CANCEL,
       () => {
         console.log("cancel");
-        this.striker
-          .getChildByName("Hover")
+        this.hover_green
           .getComponent(UITransform)
           .setContentSize(new Size(60, 60));
       },
       this
     );
+
+    // moving slider
     this.node.getParent().on("slide", this.move, this);
   }
   start() {}
