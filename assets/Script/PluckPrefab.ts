@@ -10,17 +10,22 @@ export class coinPrefab extends Component {
   white = null;
   @property({ type: SpriteFrame })
   black = null;
+
+  plucktype: PluckType = PluckType.None;
   start() {}
 
   decideColor(PLUCKTYPE: PluckType) {
     switch (PLUCKTYPE) {
       case PluckType.Black:
+        this.plucktype = PluckType.Black;
         this.node.getComponent(Sprite).spriteFrame = this.black;
         break;
       case PluckType.White:
+        this.plucktype = PluckType.White;
         this.node.getComponent(Sprite).spriteFrame = this.white;
         break;
       case PluckType.Red:
+        this.plucktype = PluckType.Red;
         this.node.getComponent(Sprite).spriteFrame = this.red;
     }
   }

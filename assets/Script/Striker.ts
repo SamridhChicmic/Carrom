@@ -43,6 +43,7 @@ export class Striker extends Component {
 
     console.log(diffX * 0.02, diffY * 0.02);
     console.log(this.node.getComponent(RigidBody2D).linearVelocity);
+    // striker features
   }
   onLoad() {
     //touch start
@@ -121,8 +122,8 @@ export class Striker extends Component {
       (event) => {
         // striker move
         this.strikerMove(event);
-        this.Hover.active = true;
-        this.Rotate_Hover.active = true;
+        this.Hover.active = false;
+        this.Rotate_Hover.active = false;
         this.Arrow.active = false;
         this.targetarea.setScale(0, 0);
       },
