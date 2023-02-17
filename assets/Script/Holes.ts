@@ -6,6 +6,9 @@ import {
   Contact2DType,
   Collider2D,
   IPhysics2DContact,
+  RigidBody2D,
+  Vec3,
+  Vec2,
 } from "cc";
 import { coinPrefab } from "./PluckPrefab";
 const { ccclass, property } = _decorator;

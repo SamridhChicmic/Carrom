@@ -28,6 +28,9 @@ export class Striker extends Component {
   Arrow: Node = null!;
   startposition: Vec3;
 
+  //try
+  StrikerPermanentPos: Vec3;
+
   strikerMove(event) {
     // distance
     console.log("Striker Move");
@@ -46,6 +49,8 @@ export class Striker extends Component {
     // striker features
   }
   onLoad() {
+    //  try
+    this.StrikerPermanentPos = this.node.getPosition();
     //touch start
     this.node.on(
       Input.EventType.TOUCH_START,
@@ -135,5 +140,10 @@ export class Striker extends Component {
     tween(this.Rotate_Hover).by(1, { angle: -360 }).repeatForever().start();
   }
 
-  update(deltaTime: number) {}
+  update(deltaTime: number) {
+    let velocity = this.node.getComponent(RigidBody2D).linearVelocity;
+    if (velocity.x <= 0 && velocity.y <= 0) {
+      this.node.setPosition(this.StrikerPermanentPos);
+    }
+  }
 }
