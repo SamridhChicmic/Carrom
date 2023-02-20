@@ -9,6 +9,7 @@ import {
   RigidBody2D,
   Vec3,
   Vec2,
+  tween,
 } from "cc";
 import { coinPrefab } from "./PluckPrefab";
 const { ccclass, property } = _decorator;
@@ -28,11 +29,14 @@ export class Holes extends Component {
 
   Destroy(node: Node) {
     if (node.name != this.Striker.name) {
+      node.getComponent(RigidBody2D).linearVelocity = new Vec2(0, 0);
+      //  tween(node).by(1, { angle: -360 }).repeatForever().start();
       setTimeout(() => {
         node.destroy();
-      }, 0);
+      }, 1000);
     }
   }
+
   CollisionCatch(
     ColliderH1: Collider2D,
     ColliderH2: Collider2D,

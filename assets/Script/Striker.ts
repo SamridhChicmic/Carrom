@@ -13,6 +13,7 @@ import {
   PhysicsSystem2D,
   RigidBody2D,
   Vec2,
+  Slider,
 } from "cc";
 const { ccclass, property } = _decorator;
 
@@ -26,9 +27,11 @@ export class Striker extends Component {
   Rotate_Hover: Node = null!;
   @property(Node)
   Arrow: Node = null!;
-  startposition: Vec3;
 
-  //try
+  @property(Node)
+  Slider = null;
+  startposition: Vec3;
+  Reposition: Boolean = false;
   StrikerPermanentPos: Vec3;
 
   strikerMove(event) {
@@ -49,7 +52,7 @@ export class Striker extends Component {
     // striker features
   }
   onLoad() {
-    //  try
+    //  permanent position to reposition
     this.StrikerPermanentPos = this.node.getPosition();
     //touch start
     this.node.on(
@@ -131,19 +134,26 @@ export class Striker extends Component {
         this.Rotate_Hover.active = false;
         this.Arrow.active = false;
         this.targetarea.setScale(0, 0);
+        this.Reposition = true;
       },
       this
     );
-  }
 
+    this.rePosition();
+  }
+  rePosition() {
+    this.schedule(() => {
+      let velocity = this.node.getComponent(RigidBody2D).linearVelocity;
+      if (velocity.x <= 0 && velocity.y <= 0 && this.Reposition == true) {
+        this.node.setPosition(this.StrikerPermanentPos);
+        this.Slider.getComponent(Slider).progress = 0;
+        this.Reposition = false;
+      }
+    }, 1);
+  }
   start() {
     tween(this.Rotate_Hover).by(1, { angle: -360 }).repeatForever().start();
   }
 
-  update(deltaTime: number) {
-    let velocity = this.node.getComponent(RigidBody2D).linearVelocity;
-    if (velocity.x <= 0 && velocity.y <= 0) {
-      this.node.setPosition(this.StrikerPermanentPos);
-    }
-  }
+  update(deltaTime: number) {}
 }
