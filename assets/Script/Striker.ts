@@ -47,8 +47,8 @@ export class Striker extends Component {
       -diffY * 0.5
     );
 
-    console.log(diffX * 0.02, diffY * 0.02);
-    console.log(this.node.getComponent(RigidBody2D).linearVelocity);
+    // console.log(diffX * 0.02, diffY * 0.02);
+    // console.log(this.node.getComponent(RigidBody2D).linearVelocity);
     // striker features
   }
   onLoad() {
@@ -87,7 +87,7 @@ export class Striker extends Component {
         let distance = Math.sqrt(diffX + diffY);
 
         // range set
-        console.log(distance * 0.05, "Distance");
+        //  console.log(distance * 0.05, "Distance");
         if (distance * 0.05 < 0.3) {
           this.targetarea.setScale(distance * 0.05, distance * 0.05);
         }
@@ -104,8 +104,8 @@ export class Striker extends Component {
         if (angleInDegree < 0) {
           angleInDegree = 360 + angleInDegree;
         }
-        console.log(" Degree1: ", angleInDegree);
-        console.log(" Degree2: ", this.node.angle);
+        // console.log(" Degree1: ", angleInDegree);
+        // console.log(" Degree2: ", this.node.angle);
 
         this.Arrow.angle = angleInDegree + 90;
       },

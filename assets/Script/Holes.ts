@@ -11,6 +11,7 @@ import {
   Vec2,
   tween,
 } from "cc";
+import { Score } from "./Score";
 import { coinPrefab } from "./PluckPrefab";
 const { ccclass, property } = _decorator;
 
@@ -27,66 +28,39 @@ export class Holes extends Component {
   @property(Node)
   Striker: Node = null;
 
-  Destroy(node: Node) {
+  Player1Score: Score = new Score();
+  Player2Score: Score = new Score();
+  Destroy(node: Node, Player: Score) {
+    node.getComponent(RigidBody2D).linearVelocity = new Vec2(0, 0);
     if (node.name != this.Striker.name) {
-      node.getComponent(RigidBody2D).linearVelocity = new Vec2(0, 0);
+      //node.getComponent(RigidBody2D).linearVelocity = new Vec2(0, 0);
       //  tween(node).by(1, { angle: -360 }).repeatForever().start();
+      Player.increaseScore(node.getComponent(coinPrefab).plucktype);
+      console.log("Score", Player.Score);
       setTimeout(() => {
         node.destroy();
       }, 1000);
+    } else {
+      Player.decreaseScore();
+      console.log("Score", Player.Score);
     }
   }
 
-  CollisionCatch(
-    ColliderH1: Collider2D,
-    ColliderH2: Collider2D,
-    ColliderH3: Collider2D,
-    ColliderH4: Collider2D
-  ) {
-    if (ColliderH1) {
-      ColliderH1.on(Contact2DType.BEGIN_CONTACT, (self, other) => {
-        console.log(self.name, "Other ", other.name);
-        this.Destroy(other.node);
-      });
-    }
-    if (ColliderH2) {
-      ColliderH2.on(
-        Contact2DType.BEGIN_CONTACT,
-        (self, other) => {
-          console.log(self.name, "Other ", other.name);
-          this.Destroy(other.node);
-        },
-        this
-      );
-    }
-    if (ColliderH3) {
-      ColliderH3.on(
-        Contact2DType.BEGIN_CONTACT,
-        (self, other) => {
-          console.log(self.name, "Other ", other.name);
-          this.Destroy(other.node);
-        },
-        this
-      );
-    }
-    if (ColliderH4) {
-      ColliderH4.on(
-        Contact2DType.BEGIN_CONTACT,
-        (self, other) => {
-          console.log(self.name, "Other ", other.name);
-          this.Destroy(other.node);
-        },
-        this
-      );
-    }
-  }
+  detectCollision = (self, other) => {
+    console.log(self.name, "Other ", other.name);
+    this.Destroy(other.node, this.Player1Score);
+  };
   onLoad() {
     let ColliderH1 = this.Hole1.getComponent(Collider2D);
     let ColliderH2 = this.Hole2.getComponent(Collider2D);
     let ColliderH3 = this.Hole3.getComponent(Collider2D);
     let ColliderH4 = this.Hole4.getComponent(Collider2D);
 
-    this.CollisionCatch(ColliderH1, ColliderH2, ColliderH3, ColliderH4);
+    ColliderH1.on(Contact2DType.BEGIN_CONTACT, this.detectCollision);
+
+    ColliderH2.on(Contact2DType.BEGIN_CONTACT, this.detectCollision);
+    ColliderH3.on(Contact2DType.BEGIN_CONTACT, this.detectCollision);
+    ColliderH4.on(Contact2DType.BEGIN_CONTACT, this.detectCollision);
   }
   start() {}
 

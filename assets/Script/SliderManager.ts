@@ -22,7 +22,7 @@ export class SliderManager extends Component {
 
   CurrentProgress: number;
   move() {
-    console.log("moved", this.node.getParent().getComponent(Slider).progress);
+    //  console.log("moved", this.node.getParent().getComponent(Slider).progress);
 
     this.striker.setPosition(
       this.width +
