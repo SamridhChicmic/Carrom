@@ -7,10 +7,12 @@ const { ccclass, property } = _decorator;
 export class Score extends Component {
   Score: number = 0;
   Turn: Boolean = false;
+  Redin:Boolean=false;
 
   increaseScore(plucktype: PluckType) {
     if (PluckType.Red == plucktype) {
       this.Score += 20;
+      this.Redin=true;
     } else {
       this.Score += 10;
     }
