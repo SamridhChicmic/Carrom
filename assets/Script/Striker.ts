@@ -14,8 +14,10 @@ import {
   RigidBody2D,
   Vec2,
   Slider,
+  AudioSource,
 } from "cc";
 const { ccclass, property } = _decorator;
+import AudioControllerObject from "./AudioController";
 
 @ccclass("Striker")
 export class Striker extends Component {
@@ -135,6 +137,10 @@ export class Striker extends Component {
         this.Arrow.active = false;
         this.targetarea.setScale(0, 0);
         this.Reposition = true;
+        // get AudioSource Component
+        let StrikerAudio = this.node.getComponent(AudioSource);
+        // AudioControllerObject.initAudio(StrikerAudio);
+        AudioControllerObject.playSoundEffetcs(StrikerAudio.clip);
       },
       this
     );
@@ -145,6 +151,7 @@ export class Striker extends Component {
     this.schedule(() => {
       let velocity = this.node.getComponent(RigidBody2D).linearVelocity;
       if (velocity.x <= 0 && velocity.y <= 0 && this.Reposition == true) {
+        AudioControllerObject.pauseAudio();
         this.node.setPosition(this.StrikerPermanentPos);
         this.Slider.getComponent(Slider).progress = 0;
         this.Reposition = false;

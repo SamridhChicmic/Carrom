@@ -7,12 +7,15 @@ import {
   SpriteFrame,
   JsonAsset,
   UITransform,
+  AudioSource,
 } from "cc";
 // enum file pluck type
 import { PluckType } from "./Constant";
 // pluck script
 import { coinPrefab } from "./PluckPrefab";
 const { ccclass, property } = _decorator;
+import AudioControllerObject from "./AudioController";
+import { AudioSourceManager } from "./AudioSourceManager";
 
 @ccclass("Gameplay")
 export class Gameplay extends Component {
@@ -20,10 +23,21 @@ export class Gameplay extends Component {
   @property(Prefab)
   prefab: Prefab = null;
 
+  @property(Node)
+  audioSources: Node = null;
+
+  @property(Node)
+  Background: Node = null;
   // pluck pattern
   @property({ type: JsonAsset })
   plucktype: JsonAsset = null;
   NODE: Node;
+  backgroundAudioClip() {
+    let audio = this.Background.getComponent(AudioSource);
+    // console.log(audio);
+    // AudioControllerObject.initAudio(audio);
+    AudioControllerObject.playMusic(audio.clip);
+  }
   onLoad() {
     // for width and height in pattern making
     this.NODE = instantiate(this.prefab);
@@ -31,6 +45,9 @@ export class Gameplay extends Component {
     this.pattern();
   }
 
+  /**
+   * @description creates a pattern after fetching data from JSON file
+   */
   pattern() {
     let pluck: any = this.plucktype?.json;
     pluck = pluck.pluckindex;
@@ -92,7 +109,11 @@ export class Gameplay extends Component {
       }
     }
   }
-  start() {}
+  start() {
+    this.audioSources.getComponent(AudioSourceManager).initAudioSource();
+    // audio clip play
+    this.backgroundAudioClip();
+  }
 
   update(deltaTime: number) {}
 }
